@@ -1,0 +1,24 @@
+import os
+ 
+
+name='C:\\Users\\Administrator\\Desktop\\test2\\to_split_audio\\虎哥_3.mp3'
+code='ffmpeg -i '+name+' -acodec libmp3lame -aq 4 -ar 44100 -ab 320k -ac 2 '+name
+os.system(code)
+
+from pydub import AudioSegment
+from pydub.silence import split_on_silence
+def split_trans(audiopath,audioname,min_silence_len,silence_thresh):
+    
+#定义分解转换，方便后面多线程调用，阿里云单独两个线程
+
+    print('开始切分')
+    sound = AudioSegment.from_file(audiopath, format='mp3')
+    chunks = split_on_silence(sound,min_silence_len,silence_thresh,keep_silence=800)#min_silence_len: 拆分语句时，静默满0.3秒则拆分。silence_thresh：小于-70dBFS以下的为静默。
+    if not os.path.exists('C:\\Users\\Administrator\\Desktop\\test2\\chunks\\虎哥\\'):os.mkdir('C:\\Users\\Administrator\\Desktop\\test2\\chunks\\虎哥\\')
+    print(len(chunks))
+    for i in range(len(chunks)):
+        new = chunks[i]
+        save_name = chunkspath+audioname+'\\'+audioname+'%06d.%s'%(i,'mp3')
+        new.export(save_name, format='mp3')
+
+split_trans('C:\\Users\\Administrator\\Desktop\\test2\\to_split_audio\\虎哥_3.mp3','虎哥',630,-30)
