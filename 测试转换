@@ -1,8 +1,8 @@
 import os
  
 
-name='C:\\Users\\Administrator\\Desktop\\test2\\to_split_audio\\虎哥_3.mp3'
-code='ffmpeg -i '+name+' -acodec libmp3lame -aq 4 -ar 44100 -ab 320k -ac 2 '+name
+name='C:\\Users\\Administrator\\Desktop\\test2\\to_split_audio\\huge_3.mp3'
+code='ffmpeg -i '+name+' '+name
 os.system(code)
 
 from pydub import AudioSegment
@@ -21,4 +21,4 @@ def split_trans(audiopath,audioname,min_silence_len,silence_thresh):
         save_name = chunkspath+audioname+'\\'+audioname+'%06d.%s'%(i,'mp3')
         new.export(save_name, format='mp3')
 
-split_trans('C:\\Users\\Administrator\\Desktop\\test2\\to_split_audio\\虎哥_3.mp3','虎哥',630,-30)
+split_trans('C:\\Users\\Administrator\\Desktop\\test2\\to_split_audio\\huge_3.mp3','虎哥',630,-30)
